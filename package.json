@@ -7,6 +7,7 @@
     "pixi.js": "^4.3.3"
   },
   "devDependencies": {
+    "assets-webpack-plugin": "^3.5.1",
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
@@ -15,8 +16,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "develop": "webpack --watch --config webpack.config.babel.js --progress --writeAssetFile",
-    "frontend-hot": "webpack-dev-server --watch --config webpack.config.babel.js --progress --useServerPath --hot"
+    "develop": "webpack --watch --config webpack.config.babel.js --progress"
   },
   "author": "Hagen Sommerkorn <hagen.sommerkorn@gmail.com> (https://github.com/riebel)",
   "license": "ISC"

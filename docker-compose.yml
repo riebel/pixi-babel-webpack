@@ -1,0 +1,41 @@
+app:
+  container_name: example-app
+  image: webdevops/php-nginx:ubuntu-16.04
+  hostname: example-app
+  ports:
+    - 8080:80
+    - 7070:443
+  volumes:
+    - .:/app
+  links:
+    - mysql
+    - phpmyadmin
+  environment:
+    - WEB_DOCUMENT_ROOT=/app/web
+    - WEB_DOCUMENT_INDEX=app_dev.php
+
+mysql:
+  container_name: example-mysql
+  image: mysql/mysql-server:5.7
+  volumes:
+    - ./docker/mysql/my.cnf:/etc/my.cnf
+  ports:
+    - 3350:3306
+  environment:
+    MYSQL_ROOT_PASSWORD: securepw
+    MYSQL_USER: example
+    MYSQL_PASSWORD: highsec
+    MYSQL_DATABASE: example
+
+phpmyadmin:
+  container_name: example-phpmyadmin
+  image: phpmyadmin/phpmyadmin
+  restart: always
+  ports:
+    - 8090:80
+  environment:
+    PMA_HOST: mysql
+    MYSQL_USERNAME: example
+    MYSQL_ROOT_PASSWORD: securepw
+  links:
+    - mysql

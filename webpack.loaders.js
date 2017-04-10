@@ -1,3 +1,6 @@
+import webpack from 'webpack';
+import AssetsPlugin from 'assets-webpack-plugin';
+
 var path = require('path');
 
 const loaders = [
@@ -18,5 +21,14 @@ const loaders = [
         }
     }
 ];
+
+export const plugins = [
+    new webpack.EnvironmentPlugin(['NODE_ENV']),
+    new AssetsPlugin({
+        path: 'app/Resources/assets',
+        filename: 'webpack-assets.json'
+    })
+];
+
 
 export default loaders;

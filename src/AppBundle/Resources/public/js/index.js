@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 class App {
     constructor() {
         this.renderer = PIXI.autoDetectRenderer(800, 600, { antialias: true });
-        
+
         // create the root of the scene graph
         this.stage = new PIXI.Container();
 
@@ -26,16 +26,27 @@ class App {
             strokeThickness : 5
         });
 
-        richText.x = 30;
-        richText.y = 180;
+        richText.anchor.set(0.5);
+        richText.x = 0;
+        richText.y = 0;
 
-        this.stage.addChild(richText);
+        this.container = new PIXI.Container();
+        this.container.x=400;
+        this.container.y=300;
+
+        this.container.addChild(richText);
+
+        this.stage.addChild(this.container);
+
 
         return this;
     }
 
     animate() {
         requestAnimationFrame( this.animate.bind(this) );
+
+        this.container.rotation += 0.02;
+        this.container.scale.x = Math.sin(this.container.rotation);
 
         this.renderer.render(this.stage);
     }

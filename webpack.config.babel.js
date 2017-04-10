@@ -1,22 +1,15 @@
-import loaders from './webpack.loaders';
-var path = require('path');
+import loaders, { plugins } from './webpack.loaders';
+const path = require('path');
 
-const namedArgs = process.argv.reduce((o, v) => {
-    const arg = v.split('=');
-    o[arg[0]] = arg[1] || true;
-    return o;
-}, {});
-
-const useServerPath = '--useServerPath' in namedArgs;
 const DEV_SERVER_PORT = 3000;
 const REL_PATH = '/assets/';
-const PUBLIC_PATH = useServerPath ? `http://localhost:${DEV_SERVER_PORT}${REL_PATH}` : REL_PATH;
 const BUILD_PATH = path.resolve(__dirname, `web${REL_PATH}`);
+const entries = {};
+
+entries['app'] = [ './src/AppBundle/Resources/public/js/index' ];
 
 module.exports = {
-    entry: [
-        './src/app'
-    ],
+    entry: entries,
     devServer: {
         devtool: 'source-map',
         hot: true,
@@ -29,14 +22,17 @@ module.exports = {
         contentBase: 'web/'
     },
     output: {
-        publicPath: PUBLIC_PATH,
+        publicPath: REL_PATH,
         path: BUILD_PATH,
         filename: '[name].bundle.js',
+        libraryTarget: 'umd',
+        library: '[name]',
         chunkFilename: '[id].js'
     },
     devtool: 'source-map',
     module: {
         loaders
     },
+    plugins: plugins,
     debug: true
 };

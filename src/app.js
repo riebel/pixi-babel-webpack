@@ -7,7 +7,8 @@ class App {
         // create the root of the scene graph
         this.stage = new PIXI.Container();
 
-        this.stage.interactive = true;
+        this.speed = 0.01;
+        this.frame = 0;
 
         this.render();
 
@@ -26,8 +27,9 @@ class App {
             strokeThickness : 5
         });
 
-        richText.x = 30;
-        richText.y = 180;
+        richText.x = 400;
+        richText.y = 300;
+        richText.anchor = {x: 0.5, y: 0.5};
 
         this.stage.addChild(richText);
 
@@ -36,6 +38,14 @@ class App {
 
     animate() {
         requestAnimationFrame( this.animate.bind(this) );
+        this.frame++;
+
+        const richText = this.stage.children[0];
+        const sine = Math.sin(this.speed * this.frame);
+
+        richText.rotation = sine * 6.3;
+        richText.width = (sine / 2 + 0.5) * 800;
+        richText.height = (sine / 2 + 0.5) * 600;
 
         this.renderer.render(this.stage);
     }
